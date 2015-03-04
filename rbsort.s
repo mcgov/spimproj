@@ -1,4 +1,4 @@
-#rbubblesort
+####rbubblesort
 ## Bal, Clark, Holm, McGovern
 
 .data
@@ -7,15 +7,13 @@ list: .word 20, 10 , 5, 12, 13, 15 ,19 , 8 , 1  ## set up an array ahead of time
 
 .text
 
-
-
 main:
 	la $s0 list #load the array into s0
 	addi $s3  $zero 9 #store the amount we want to loop to
 	addi $s4  $zero 9 #outer loop target
 	xor $s1 $s1 $s1 #set to 0 
 	xor $s5 $s5 $s5 #outer loop counter
-	jal  readin
+	jal readin
 	nop
 	jal zeroctr
 	jal bsort
@@ -24,8 +22,6 @@ main:
 	jal printcell
 	j end
 	
-
-
 swap:
 	beq $s1, $s3, reset
 	blt $a0  $a1  bsort
@@ -53,12 +49,9 @@ bsort:
 	add  $a3  $t0  $zero
  	j swap
 
-
-
 end:
 	ori  $v0  $zero 10  # exit code
 	syscall ## eat so many fish tacos that you puke on your date
-	## but they were soooooooo goood.
 
 reset:
 	xor $s1 $s1 $s1
@@ -85,7 +78,7 @@ readin:
 	sll $t1  $s1 2
 	add $t0  $t0 $t1
 	ori $v0  $zero  5
-	syscall
+	syscall  #fall down a well
 	sw  $v0  ($t0)
 	addi $s1  $s1  1
 	beq  $s1  $s3  return
