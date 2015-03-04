@@ -1,4 +1,4 @@
-#nrbubblesort
+#rbubblesort
 ## Bal, Clark, Holm, McGovern
 
 .data
@@ -15,25 +15,32 @@ main:
 	addi $s4  $zero 9 #outer loop target
 	xor $s1 $s1 $s1 #set to 0 
 	xor $s5 $s5 $s5 #outer loop counter
-	j  readin
+	jal  readin
+	nop
+	jal zeroctr
+	jal bsort
+	jal zeroctr
+	add $s3 $s4 $zero
+	jal printcell
+	j end
 	
 
 
 swap:
 	beq $s1, $s3, reset
-	blt $a0  $a1  loop
+	blt $a0  $a1  bsort
 	or  $t0  $a0  $zero  ##swap a0 and a1
 	or  $a0  $a1  $zero 
 	or  $a1  $t0  $zero
 	sw  $a0  0($a2)
 	sw  $a1  0($a3)
-	j   loop
+	j   bsort
 
 zeroctr:
 	xor $s1 $s1 $s1
-	j loop
+	jr $ra
 
-loop:
+bsort:
 	sll  $t0  $s1  2 #multiply by 4
 	add  $t0  $t0  $s0  
 	lw   $a0  0($t0)  
@@ -54,13 +61,14 @@ end:
 	## but they were soooooooo goood.
 
 reset:
-	xor $s1  $s1  $s1
+	xor $s1 $s1 $s1
 	addi $s5 $s5 1
-	blt $s5 $s4  loop
-	j printcell
+	addi $s3  $s3 -1
+	blt $s5 $s4  bsort
+	j return
 
 printcell:
-	beq  $s3  $s1  end
+	beq  $s3  $s1  return
 	addi $v0  $zero 1   #print int code
 	sll  $t0  $s1  2  # multiply the counter by 4
 	add  $t0  $t0  $s0  # add the counter to the base address
@@ -80,6 +88,8 @@ readin:
 	syscall
 	sw  $v0  ($t0)
 	addi $s1  $s1  1
-	beq  $s1  $s3  zeroctr
+	beq  $s1  $s3  return
 	j readin
 
+return:
+	jr $ra
