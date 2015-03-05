@@ -54,10 +54,10 @@ end:
 	syscall ## eat so many fish tacos that you puke on your date
 
 reset:
-	xor $s1 $s1 $s1
-	addi $s5 $s5 1
-	addi $s3  $s3 -1
-	blt $s5 $s4  bsort
+	xor $s1 $s1 $s1		# set inner loops counter to 0
+	addi $s5 $s5 1      # outer loop += 1
+	addi $s3  $s3 -1    # array =  array[-1:] 
+	blt $s5 $s4  bsort	# bsort( array )
 	j return
 
 printcell:
