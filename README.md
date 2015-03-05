@@ -1,4 +1,4 @@
-MIPS BUBBLE SORT PROJECT
+Mips Bubble Sort Project
 ========================
 
 A class project for shambhu's computer organization.
